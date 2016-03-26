@@ -1,12 +1,16 @@
 #include "opencv2/opencv.hpp"
+#include<iostream>
+#include<cstdio>
+
 
 using namespace cv;
 using namespace std;
 
 int main(int, char**)
 {
-    //VideoCapture cap("multiple/input%02d.jpg"); // open the default camera
-    VideoCapture cap(0);
+
+    VideoCapture cap("Video/Syria.mp4"); // open the default camera
+
     if(!cap.isOpened())  // check if we succeeded
         return -1;
 
@@ -22,36 +26,36 @@ int main(int, char**)
 
 
 	//cout<<dummyFrame.channels(); 3 channels
-
-    // convert to greyscale
-    cvtColor(dummyFrame,dummyFrame,CV_BGR2GRAY);
-    medianBlur(dummyFrame,dummyFrame,7); // blur it to remove noise
+    cvtColor(dummyFrame,dummyFrame,CV_BGR2GRAY);    // convert to greyscale
+      medianBlur(dummyFrame,dummyFrame,7);          // blur it to remove noise
 
     // cout<<dummyFrame.channels(); 1 channel
 
     //CV_Assert(dummyFrame.depth() == CV_8U);
-    uchar histogram[256];
+/*    uchar histogram[256];
     for(int i=0;i<256;i++)
     	histogram[i]=0;
 
-    for(int j=0;j<dummyFrame.rows;j++) 
-	{
+    for(int j=0;j<dummyFrame.rows;j++)
   		for (int i=0;i<dummyFrame.cols;i++)
-  		{
-    		   
-       		histogram[dummyFrame.at<uchar>(j,i)]++;
-  		}
-	}
+       		 histogram[dummyFrame.at<uchar>(j,i)]++;
 
 	// find most used colour for thresholding
 	int maxcount = 0;
 	for(int i=0;i<256;i++)
 		if(histogram[i]>maxcount)
 			maxcount = histogram[i];
+<<<<<<< HEAD
   */
     
 	/* maxcount is the color of the sky */
+=======
 
+	 maxcount is the color of the sky */
+>>>>>>> d7cf9b2ece1102ee544a5a3501e38018b66249c6
+
+
+//cout<<"maxcount = "<<maxcount<<endl;
 
     for(;;)
     {
@@ -67,13 +71,22 @@ int main(int, char**)
         	break;
 
 
+        cvtColor(frame, dest, CV_BGR2GRAY);  // converts image from rgb(src) to gray level (dst)
 
+<<<<<<< HEAD
         cvtColor(frame, dest, CV_BGR2GRAY);  // converts image from rgb(src) to gray level (dst) 
        	threshold(dest, bin, 40, 255, CV_THRESH_BINARY_INV); // // Tresholds image with level = 40 from gray level(dst) to binary (bin)
        
        	findContours(bin,contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE ); // finds contours on bin image
+=======
+        adaptiveThreshold(dest, bin,255,CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV,75,20);
+       	//threshold(dest, bin, 40, 255, CV_THRESH_BINARY_INV); // // Tresholds image with level = 40 from gray level(dst) to binary (bin)
+>>>>>>> d7cf9b2ece1102ee544a5a3501e38018b66249c6
 
+        imshow("threshold",bin);
+       	findContours(bin,contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE ); // finds contours on bin image
        	Scalar color( 255,255,255 );
+<<<<<<< HEAD
        	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour. 
        	{
        	   	if((contourArea(contours[i],false))>100){ // if counter area >100 pixel draw it on ero which is new image variable
@@ -91,9 +104,31 @@ int main(int, char**)
        	   
        	imshow("original",frame);
         cout<<contours.size();
+=======
+       	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
+       	  {
+       	    if((contourArea(contours[i],false))>100)
+              { // if counter area >100 pixel draw it on ero which is new image variable
+       	          drawContours( bin, contours, i , color, CV_FILLED, 8, hierarchy ); //Draw contours on itself as filled
+              }
+       	   }
 
-        if(waitKey(500) >= 0) break;
+       	findContours( bin, contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE );
+
+       	 for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
+       	  {
+       	      bounding_rect=boundingRect(contours[i]); //Bound and Draw rectangle each object which detected at the end on src(original image)
+       	      rectangle(frame, bounding_rect,  Scalar(0,255,0),3, 8,0);
+       	   }
+
+       	   imshow("original",frame);
+       	   //cout<<contours.size()<<"\t";
+>>>>>>> d7cf9b2ece1102ee544a5a3501e38018b66249c6
+
+           waitKey(20);
+        //if(waitKey(500) >= 0) break;
     }
     // the camera will be deinitialized automatically in VideoCapture destructor
+
     return 0;
 }
