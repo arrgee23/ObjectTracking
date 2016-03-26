@@ -8,7 +8,7 @@ using namespace std;
 
 int main(int, char**)
 {
-    VideoCapture cap("Video/Simulated.mp4"); // open the default camera
+    VideoCapture cap("Video/Syria.mp4"); // open the default camera
 
     if(!cap.isOpened())  // check if we succeeded
         return -1;
@@ -31,7 +31,7 @@ int main(int, char**)
     // cout<<dummyFrame.channels(); 1 channel
 
     //CV_Assert(dummyFrame.depth() == CV_8U);
-    uchar histogram[256];
+/*    uchar histogram[256];
     for(int i=0;i<256;i++)
     	histogram[i]=0;
 
@@ -45,7 +45,7 @@ int main(int, char**)
 		if(histogram[i]>maxcount)
 			maxcount = histogram[i];
 
-	/* maxcount is the color of the sky */
+	 maxcount is the color of the sky */
 
 
 //cout<<"maxcount = "<<maxcount<<endl;
@@ -74,9 +74,10 @@ int main(int, char**)
        	Scalar color( 255,255,255 );
        	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
        	  {
-       	   if((contourArea(contours[i],false))>100){ // if counter area >100 pixel draw it on ero which is new image variable
-       	    drawContours( bin, contours, i , color, CV_FILLED, 8, hierarchy ); //Draw contours on itself as filled
-       	                                            }
+       	    if((contourArea(contours[i],false))>100)
+              { // if counter area >100 pixel draw it on ero which is new image variable
+       	          drawContours( bin, contours, i , color, CV_FILLED, 8, hierarchy ); //Draw contours on itself as filled
+              }
        	   }
 
        	findContours( bin, contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE );
