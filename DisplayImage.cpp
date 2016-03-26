@@ -5,15 +5,15 @@ using namespace std;
 
 int main(int, char**)
 {
-    VideoCapture cap("input/input%02d.jpg"); // open the default camera
-
+    //VideoCapture cap("multiple/input%02d.jpg"); // open the default camera
+    VideoCapture cap(0);
     if(!cap.isOpened())  // check if we succeeded
         return -1;
 
     /*
 		Getting the greyscale color value of sky to threshold wrt it
 		Assuming most of the image is of sky
-    */
+    
 
     // read first frame
     Mat dummyFrame;
@@ -48,7 +48,8 @@ int main(int, char**)
 	for(int i=0;i<256;i++)
 		if(histogram[i]>maxcount)
 			maxcount = histogram[i];
-
+  */
+    
 	/* maxcount is the color of the sky */
 
 
@@ -69,27 +70,27 @@ int main(int, char**)
 
         cvtColor(frame, dest, CV_BGR2GRAY);  // converts image from rgb(src) to gray level (dst) 
        	threshold(dest, bin, 40, 255, CV_THRESH_BINARY_INV); // // Tresholds image with level = 40 from gray level(dst) to binary (bin)
-       	imshow("threshold",bin);
+       
        	findContours(bin,contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE ); // finds contours on bin image
 
        	Scalar color( 255,255,255 );
        	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour. 
-       	  {
-       	   if((contourArea(contours[i],false))>100){ // if counter area >100 pixel draw it on ero which is new image variable
-       	    drawContours( bin, contours, i , color, CV_FILLED, 8, hierarchy ); //Draw contours on itself as filled
+       	{
+       	   	if((contourArea(contours[i],false))>100){ // if counter area >100 pixel draw it on ero which is new image variable
+       	    	drawContours( bin, contours, i , color, CV_FILLED, 8, hierarchy ); //Draw contours on itself as filled
        	                                            }
-       	   }
+       	}
 
        	findContours( bin, contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE );
 
-       	 for( int i = 0; i< contours.size(); i++ ) // iterate through each contour. 
-       	  {
-       	      bounding_rect=boundingRect(contours[i]); //Bound and Draw rectangle each object which detected at the end on src(original image)
-       	      rectangle(frame, bounding_rect,  Scalar(0,255,0),3, 8,0);  
-       	   }
+       	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour. 
+       	{
+       		bounding_rect=boundingRect(contours[i]); //Bound and Draw rectangle each object which detected at the end on src(original image)
+       	    rectangle(frame, bounding_rect,  Scalar(0,255,0),3, 8,0);  
+		}
        	   
-       	   imshow("original",frame);
-       	   cout<<contours.size();
+       	imshow("original",frame);
+        cout<<contours.size();
 
         if(waitKey(500) >= 0) break;
     }
