@@ -49,10 +49,6 @@ int main(int, char**)
   */
     
 	/* maxcount is the color of the sky */
-=======
-
-	 maxcount is the color of the sky */
->>>>>>> d7cf9b2ece1102ee544a5a3501e38018b66249c6
 
 
 //cout<<"maxcount = "<<maxcount<<endl;
@@ -73,38 +69,14 @@ int main(int, char**)
 
         cvtColor(frame, dest, CV_BGR2GRAY);  // converts image from rgb(src) to gray level (dst)
 
-<<<<<<< HEAD
-        cvtColor(frame, dest, CV_BGR2GRAY);  // converts image from rgb(src) to gray level (dst) 
-       	threshold(dest, bin, 40, 255, CV_THRESH_BINARY_INV); // // Tresholds image with level = 40 from gray level(dst) to binary (bin)
-       
-       	findContours(bin,contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE ); // finds contours on bin image
-=======
+
         adaptiveThreshold(dest, bin,255,CV_ADAPTIVE_THRESH_GAUSSIAN_C, CV_THRESH_BINARY_INV,75,20);
        	//threshold(dest, bin, 40, 255, CV_THRESH_BINARY_INV); // // Tresholds image with level = 40 from gray level(dst) to binary (bin)
->>>>>>> d7cf9b2ece1102ee544a5a3501e38018b66249c6
 
         imshow("threshold",bin);
        	findContours(bin,contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE ); // finds contours on bin image
        	Scalar color( 255,255,255 );
-<<<<<<< HEAD
-       	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour. 
-       	{
-       	   	if((contourArea(contours[i],false))>100){ // if counter area >100 pixel draw it on ero which is new image variable
-       	    	drawContours( bin, contours, i , color, CV_FILLED, 8, hierarchy ); //Draw contours on itself as filled
-       	                                            }
-       	}
 
-       	findContours( bin, contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE );
-
-       	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour. 
-       	{
-       		bounding_rect=boundingRect(contours[i]); //Bound and Draw rectangle each object which detected at the end on src(original image)
-       	    rectangle(frame, bounding_rect,  Scalar(0,255,0),3, 8,0);  
-		}
-       	   
-       	imshow("original",frame);
-        cout<<contours.size();
-=======
        	for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
        	  {
        	    if((contourArea(contours[i],false))>100)
@@ -123,7 +95,6 @@ int main(int, char**)
 
        	   imshow("original",frame);
        	   //cout<<contours.size()<<"\t";
->>>>>>> d7cf9b2ece1102ee544a5a3501e38018b66249c6
 
            waitKey(20);
         //if(waitKey(500) >= 0) break;
