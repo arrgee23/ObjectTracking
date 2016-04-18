@@ -23,11 +23,17 @@ class Object{
 		cmHistory.push_back(cm);
 	}
 	
+	void updateContour(vector<Point> c){
+		contour = c;
+		area = contourArea(c,false);
+		Moments mu = moments(c, false );
+		cm = Point2f( mu.m10/mu.m00 , mu.m01/mu.m00 );
+	}
 	
 	// compares this object to the passed object
 	bool isSame(vector<Point> c){
 		double a = contourArea(c,false);
-		cout<<matchShapes(this->contour,c,1,0.0)<<endl;
+		//cout<<matchShapes(this->contour,c,1,0.0)<<endl;
 		//if(abs(this->area - a) < (this->area*8)/10 && matchShapes(this->contour,c,CV_CONTOURS_MATCH_I1,0)>15)
 		if(matchShapes(this->contour,c,CV_CONTOURS_MATCH_I1,0)<2)
 			return true;
