@@ -23,6 +23,8 @@ class Object{
 		cmHistory.push_back(cm);
 	}
 	
+	
+	// compares this object to the passed object
 	bool isSame(vector<Point> c){
 		double a = contourArea(c,false);
 		cout<<matchShapes(this->contour,c,1,0.0)<<endl;
@@ -34,7 +36,9 @@ class Object{
 			
 	}
 	
-	void addCM(	Point2f cm){
+	void addCM(	vector<Point> c){
+		Moments mu = moments(c, false );
+		cm = Point2f( mu.m10/mu.m00 , mu.m01/mu.m00 );
 		cmHistory.push_back(cm);
 	}
 }

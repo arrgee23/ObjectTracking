@@ -19,16 +19,20 @@ int ifExistsInObjectList(vector<Point> c, vector<Object> objectList){
 int main(int, char**)
 {
 
-	VideoCapture cap("Video/Simulated.mp4"); // open the default camera
-
+	//VideoCapture cap("Video/Simulated.mp4"); // open this video
+	VideoCapture cap("input/input%02d.jpg"); // open image files following a naming pattern
+	//VideoCapture cap(0); // open video cam
+	
     if(!cap.isOpened())  // check if we succeeded
         return -1;
-	double fps = cap.get(CV_CAP_PROP_FPS);
-	cout<<fps<<endl;
+	//double fps = cap.get(CV_CAP_PROP_FPS);
+	//cout<<fps<<endl;
 	
 	vector<Object> objectList;
+	int iterationCount = 0;
     for(;;)
     {
+		iterationCount++;
         Mat frame;
         Mat dest;
 
@@ -59,27 +63,13 @@ int main(int, char**)
             }
         }
 
-       
-        
-        /*
-        
-          for( int i = 0; i < contours.size(); i++ ){
-              mu[i] = moments( contours[i], false );
-          }
-
-        //Mass center
-       
-          for( int i = 0; i < contours.size(); i++ ){ 
-            mc[i] = Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 ); 
-          }
-          */
           
         /*
          * Main calculation
          */
 		findContours( bin, contours, hierarchy,CV_RETR_EXTERNAL, CV_CHAIN_APPROX_NONE );
-		vector<Point2f> mc( contours.size() );
-		vector<Moments> mu(contours.size() );
+		//vector<Point2f> mc( contours.size() );
+		//vector<Moments> mu(contours.size() );
 		for( int i = 0; i< contours.size(); i++ ) // iterate through each contour.
 		{
 			
@@ -92,20 +82,39 @@ int main(int, char**)
 				//cout<<tl<<endl;
 				//cout<<br<<endl;
 				Size s = bin.size();
+				
 				//cout<<"sizze "<<s<<endl;
+				
 				if(tl.x > 3 && tl.y > 3 && br.x< s.width-3 && br.y< s.height-3){ // make sure the bounding rectangle is within window
+																				 // object is fully visible
+																				 
 					//mu[i] = moments( contours[i], false );
 					//mc[i] = Point2f( mu[i].m10/mu[i].m00 , mu[i].m01/mu[i].m00 ); 
 					
-					if(ifExistsInObjectList(contours[i],objectList)== -1) // doesnt exist
+					int indexInList = ifExistsInObjectList(contours[i],objectList);
+					
+					if(indexInList == -1) //object is new 
 						objectList.push_back(Object(contours[i]));
-					else{
-						
+					
+					else{ // object already exists
+						//if(iterationCount%5 == 0){  // record its centerof mass every 5th frame
+							objectList[indexInList].addCM(contours[i]);
+							
+							// draw its path
+							for(int i=0;i<objectList[indexInList].cmHistory.size()-1;i++){
+								line(frame,
+								objectList[indexInList].cmHistory[i],
+								objectList[indexInList].cmHistory[i+1],
+								Scalar(0,0,255),
+								1,8,0
+									);
+							}
+						//}
 					}
 					cout<<objectList.size()<<endl;
 					//Bound and Draw rectangle each object which detected at the end on src(original image)
 					// draw cm
-					circle(frame,mc[i], 1, Scalar(0,0,255), 1, 8, 0);
+					//circle(frame,mc[i], 1, Scalar(0,0,255), 1, 8, 0);
 					rectangle(frame, bounding_rect,  Scalar(0,255,0),3, 8,0);
 				}
             }
@@ -117,7 +126,8 @@ int main(int, char**)
        	   imshow("original",frame);
        	   //cout<<contours.size()<<"\t";
 
-           waitKey(1000/fps);
+          // waitKey(1000/fps);
+          waitKey(1000);
         //if(waitKey(500) >= 0) break;
     }
     // the camera will be deinitialized automatically in VideoCapture destructor
