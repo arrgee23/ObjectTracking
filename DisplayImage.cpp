@@ -11,7 +11,13 @@ using namespace std;
 
 vector<Object> objectList;
 Mat frame;
-vector<int> aerplanes; // aeroplane indeces in objectList
+vector<int> aeroplanes; // aeroplane indeces in objectList
+
+
+bool droppedFromPlane(Object o){
+	return true;
+}
+
  
 int ifExistsInObjectList(vector<Point> c, vector<Object> objectList){
 	
@@ -41,7 +47,7 @@ void mouse_callback(int  event, int  x, int  y, int  flag, void *param)
 			
 			if(x>=r.tl().x && x<=r.br().x && y>=r.tl().y && y<=r.br().y){ // mouse clicked witin object
 				
-				cout<<"inside"<<i<<endl;
+				aeroplanes.push_back(i);
 			}
 		}
         
@@ -53,7 +59,7 @@ void mouse_callback(int  event, int  x, int  y, int  flag, void *param)
 int main(int, char**)
 {
 
-	VideoCapture cap("Video/Simulated.mp4"); // open this video
+	VideoCapture cap("Video/syria25sec.mp4"); // open this video
 	//VideoCapture cap("input/input%02d.jpg"); // open image files following a naming pattern
 	//VideoCapture cap(0); // open video cam
 	
@@ -143,19 +149,22 @@ int main(int, char**)
 					
 						// object already exists
 						//if(iterationCount%5 == 0){  // record its centerof mass every 5th frame
-							objectList[indexInList].addCM(contours[i]);
+						//objectList[indexInList].addCM(contours[i]);
 							
-							// draw its path
+							/* draw its path
 							for(int i=0;i<objectList[indexInList].cmHistory.size()-1;i++){
 								line(frame,
 								objectList[indexInList].cmHistory[i],
 								objectList[indexInList].cmHistory[i+1],
 								Scalar(0,0,255),
+								Scalar(0,0,255),
 								1,8,0
 									);
-							}
+							}*/
 						//}
 					}
+					
+					
 					//cout<<objectList.size()<<endl;
 					//Bound and Draw rectangle each object which detected at the end on src(original image)
 					// draw cm
@@ -165,7 +174,20 @@ int main(int, char**)
             }
        	     
        	}
-
+		
+		
+					// draw every aeroplane's path
+					for(int j=0;j<aeroplanes.size();j++){
+						
+						objectList[aeroplanes[j]].drawPath(frame,Scalar(255,0,0));
+					}	
+					
+					// draw path of bombs
+					for(int i=0;i<objectList.size();i++){
+						
+						if(objectList[i].isMovingDown() && droppedFromPlane(objectList[i]))
+							objectList[i].drawPath(frame,Scalar(0,0,255));
+					}
 
 
        	   imshow("original",frame);
