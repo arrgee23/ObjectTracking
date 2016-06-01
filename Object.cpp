@@ -33,10 +33,17 @@ class Object{
 	
 	// compares this object to the passed object
 	bool isSame(vector<Point> c){
-		double a = contourArea(c,false);
+		//double a = contourArea(c,false);
 		//cout<<matchShapes(this->contour,c,1,0.0)<<endl;
 		//if(abs(this->area - a) < (this->area*8)/10 && matchShapes(this->contour,c,CV_CONTOURS_MATCH_I1,0)>15)
-		if(matchShapes(this->contour,c,CV_CONTOURS_MATCH_I1,0)<2)
+		Moments mu = moments(c, false );
+		Point2f cm2 = Point2f( mu.m10/mu.m00 , mu.m01/mu.m00 );
+		float x1 = cm.x;
+		float x2 = cm2.x;
+		float y1 = cm.y;
+		float y2 = cm2.y;
+		float dist = (x1-x2)*(x1-x2)+(y1-y2)*(y1-y2);
+		if(matchShapes(this->contour,c,CV_CONTOURS_MATCH_I1,0)<2 && dist < 2000)
 			return true;
 		
 		return false;
