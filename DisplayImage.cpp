@@ -31,30 +31,6 @@ int ifExistsInObjectList(vector<Point> c, vector<Object> objectList){
 Point pt(-1,-1);
 bool newCoords = false;
 
-void mouse_callback(int  event, int  x, int  y, int  flag, void *param)
-{
-    if (event == EVENT_LBUTTONDOWN)
-    {
-        // Store point coordinates
-        pt.x = x;
-        pt.y = y;
-        newCoords = true;
-        
-        for(int i=0;i<objectList.size();i++){
-			Rect r = boundingRect(objectList[i].contour);
-			//cout<<i<<"topleft"<<" "<<r.tl().x<<" "<<r.tl().y<<endl;
-			//cout<<i<<"br"<<" "<<r.br().x<<" "<<r.br().y<<endl;
-			
-			if(x>=r.tl().x && x<=r.br().x && y>=r.tl().y && y<=r.br().y){ // mouse clicked witin object
-				
-				aeroplanes.push_back(i);
-			}
-		}
-        
-        //cout<<x<<" "<<y<<endl;
-    }
-}
-
 
 int main(int, char**)
 {
@@ -70,9 +46,6 @@ int main(int, char**)
 	
 	//Create a window
      namedWindow("original", 1);
-
-     //set the callback function for any mouse event
-     setMouseCallback("original", mouse_callback, NULL);
 
 
 	
@@ -175,18 +148,16 @@ int main(int, char**)
        	     
        	}
 		
-		
+					/*
 					// draw every aeroplane's path
 					for(int j=0;j<aeroplanes.size();j++){
 						
 						objectList[aeroplanes[j]].drawPath(frame,Scalar(255,0,0));
 					}	
-					
-					// draw path of bombs
+					*/
+					// draw path 
 					for(int i=0;i<objectList.size();i++){
-						
-						if(objectList[i].isMovingDown() && droppedFromPlane(objectList[i]))
-							objectList[i].drawPath(frame,Scalar(0,0,255));
+						objectList[i].drawPath(frame,Scalar(0,0,255));
 					}
 
 
