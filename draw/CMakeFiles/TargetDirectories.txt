@@ -1,0 +1,3 @@
+/home/rahul/Desktop/draw/CMakeFiles/edit_cache.dir
+/home/rahul/Desktop/draw/CMakeFiles/rebuild_cache.dir
+/home/rahul/Desktop/draw/CMakeFiles/draw.dir

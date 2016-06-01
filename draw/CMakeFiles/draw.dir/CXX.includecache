@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/rahul/Desktop/draw/Object.cpp
+opencv2/opencv.hpp
+/home/rahul/Desktop/draw/opencv2/opencv.hpp
+iostream
+-
+cstdio
+-
+cmath
+-
+
+/home/rahul/Desktop/draw/draw.cpp
+iostream
+-
+opencv2/opencv.hpp
+/home/rahul/Desktop/draw/opencv2/opencv.hpp
+opencv2/highgui/highgui.hpp
+/home/rahul/Desktop/draw/opencv2/highgui/highgui.hpp
+Object.cpp
+/home/rahul/Desktop/draw/Object.cpp
+
