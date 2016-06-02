@@ -31,11 +31,30 @@ int ifExistsInObjectList(vector<Point> c, vector<Object> objectList){
 Point pt(-1,-1);
 bool newCoords = false;
 
-
-int main(int, char**)
+void help()
 {
+    cout
+        << "--------------------------------------------------------------------------"  << endl
+        << "Usage:"                                                                      << endl
+        << "./DisplayImage {<video filename with path>}"                          << endl
+        << "for example: ./DisplayImage Video/circle.mp4"                                            << endl
+        << "--------------------------------------------------------------------------"  << endl
+        << endl;
+}
 
-	VideoCapture cap("Video/syria25sec.mp4"); // open this video
+int main(int argc, char* argv[])
+{
+	
+    
+    //check for the input parameter correctness
+    if(argc != 2) {
+        cerr <<"Incorret input list" << endl;
+         //print help information
+		help();
+        return EXIT_FAILURE;
+    }
+
+	VideoCapture cap(argv[1]); // open this video
 	//VideoCapture cap("input/input%02d.jpg"); // open image files following a naming pattern
 	//VideoCapture cap(0); // open video cam
 	

@@ -6,9 +6,9 @@
 
 #IncludeRegexTransform: 
 
-/home/rahul/Desktop/draw/Object.cpp
+/home/rahul/Desktop/opncv/draw/Object.cpp
 opencv2/opencv.hpp
-/home/rahul/Desktop/draw/opencv2/opencv.hpp
+/home/rahul/Desktop/opncv/draw/opencv2/opencv.hpp
 iostream
 -
 cstdio
@@ -16,13 +16,13 @@ cstdio
 cmath
 -
 
-/home/rahul/Desktop/draw/draw.cpp
+/home/rahul/Desktop/opncv/draw/draw.cpp
 iostream
 -
 opencv2/opencv.hpp
-/home/rahul/Desktop/draw/opencv2/opencv.hpp
+/home/rahul/Desktop/opncv/draw/opencv2/opencv.hpp
 opencv2/highgui/highgui.hpp
-/home/rahul/Desktop/draw/opencv2/highgui/highgui.hpp
+/home/rahul/Desktop/opncv/draw/opencv2/highgui/highgui.hpp
 Object.cpp
-/home/rahul/Desktop/draw/Object.cpp
+/home/rahul/Desktop/opncv/draw/Object.cpp
 
